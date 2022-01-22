@@ -21,6 +21,26 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    /* 
+    declare CSS variables on some kind of element 
+    root is the highest level you can select, almost like selecting on the html element
+    */
+    
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -45,6 +65,18 @@
   </style>
 
   <script>
+
+    const inputs = document.querySelectorAll('.controls input');
+    
+    function handleUpdate() {
+      // dataset is an object that will contain all data attribute from that specific element (in this case, data-sizing)
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
   </script>
 
 </body>

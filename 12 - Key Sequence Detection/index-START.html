@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+
+  // when someone inputs a certain sequence of keys into your window or input, something needs to happen
+
+  // whenever someone pushes a key, we want to put it into an array
+  // this array could get very long, so we want to cut it off after the number of letters of our secret code
+  const pressed = [];
+  const secretCode = 'aidoufou';
+
+  window.addEventListener('keyup', (e) => {
+    console.log(e.key);
+    pressed.push(e.key);
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length); // this will go from the end, back 8, then trim
+    // now we need to check if this secretArray contains the code we're looking for
+    if (pressed.join('').includes(secretCode)) {
+      console.log('BING BONG');
+      cornify_add();
+    }
+    console.log(pressed);
+  });
+</script>
+</body>
+</html>

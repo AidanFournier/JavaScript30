@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Click and Drag</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="items">
+    <div class="item item1">01</div>
+    <div class="item item2">02</div>
+    <div class="item item3">03</div>
+    <div class="item item4">04</div>
+    <div class="item item5">05</div>
+    <div class="item item6">06</div>
+    <div class="item item7">07</div>
+    <div class="item item8">08</div>
+    <div class="item item9">09</div>
+    <div class="item item10">10</div>
+    <div class="item item11">11</div>
+    <div class="item item12">12</div>
+    <div class="item item13">13</div>
+    <div class="item item14">14</div>
+    <div class="item item15">15</div>
+    <div class="item item16">16</div>
+    <div class="item item17">17</div>
+    <div class="item item18">18</div>
+    <div class="item item19">19</div>
+    <div class="item item20">20</div>
+    <div class="item item21">21</div>
+    <div class="item item22">22</div>
+    <div class="item item23">23</div>
+    <div class="item item24">24</div>
+    <div class="item item25">25</div>
+  </div>
+
+<script>
+
+  // select the items  (inside this big white-lined box), and then listen for a numbeer of events
+  // when we first click down, going to add a class of active, and figure out where we clicked down
+  // then  when we scroll left or right, going to figure out by how many pixels, and that's how much we'll be moving the div
+
+  const slider = document.querySelector('.items');
+  let isDown = false; // flag variable, flip-flop between true/false
+  let startX; // empty for ow, will be assigning value in events
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    // when someone clicks down, before they start moving to left/right, we need to record where they did that initial click down
+    startX = e.pageX - slider.offsetLeft; // this will account for margin offset between whole page and div we're working with
+    // we need to figure out where the initial scroll is, and account for the amount of scroll to the sides
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  }); 
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  }); 
+
+  slider.addEventListener('mousemove', (e) => {
+    // console.log('Do work'); // a lot is appearing in console.log, and we haven't even clicked anything yet; shouldn't show anything unless we're mouse down
+    if (!isDown) return; // stop the function from running
+    e.preventDefault(); // this will prevent stuff like selecting the text inside div when you click down
+    // we know where the cursor is when we clicked down, now we need to know how much it moves when it scrolls
+    const x = e.pageX - slider.offsetLeft;
+    // console.log({x, startX}); // throw these in an object {} and you'll see the type of values, along with the actual number
+    const walk = (x - startX) *  3; // how far have we deviated from that initial place
+    // why add the * 3? for everey pixel scrolled, we're going to move 3 pixels
+    console.log(walk);
+    slider.scrollLeft = scrollLeft - walk;
+  });
+
+</script>
+
+  </body>
+</html>

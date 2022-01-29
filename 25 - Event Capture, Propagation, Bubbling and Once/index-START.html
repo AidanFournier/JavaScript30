@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after { 
+    box-sizing: inherit; 
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+</style>
+
+<button></button>
+
+<script>
+
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+  function logText(e) {
+    // e.stopPropagation(); // stop event from bubbling up, I clicked on the one I wanted! Stop bubbling!
+    console.log(this); 
+  }
+
+  // clicking on inner div 3 triggers event listener for all divs - this is called bubbling; ripplng out to wrapping containers
+  // if you're listening for a click on multiple nested elements, 
+  
+  // Event capture: when you click on the element, it's going to ripple down to inner elements (from the top down) and capture all of those events
+  // then it starts at the bottom and bubbles up, triggering the events as you go up
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false, // by adding this, logText won't get fired on the bubble up, it will happen on the capture down; by default, false
+    once: true  // if true, it will listen for a click and then unbind itself; same as doing div.removeEventListener('click', logText)
+  })); 
+
+  button.addEventListener('click', () => {
+    console.log('click!!');
+  }, {
+    once: true
+  })
+
+</script>
+</body>
+</html>

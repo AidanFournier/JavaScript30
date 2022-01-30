@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+
+  const speed = document.querySelector('.speed'); // entire white bar
+  const bar = speed.querySelector('.speed-bar'); // the filled part of bar
+  const video = document.querySelector('.flex');
+
+  // when you hover over the bar, it changes the playback speed
+  // 1st, the visual part:
+
+  function handleMove(e) {
+    // using a proper function in here this time because need .this to be equal to the speedbar itself
+    const y = e.pageY - this.offsetTop; // hover over top of bar, it/s zero, number increases as you hover down
+    // we want to turn this into a percentage
+    const percent = y / this.offsetHeight; // divide y by the total height
+    const min = 0.4;
+    const max = 4;
+    const height = Math.round(percent * 100) + '%'; 
+    const playbackRate = percent * (max - min) + min; // this is kind of weird, because at 0% height we want 0.4x play speed, at 100% height we want 4x speed; this is how we offset it
+    bar.style.height = height; // visually, it works!
+    // now we need to update that number showing on the bar
+    bar.textContent = playbackRate.toFixed(2) + 'x';
+    // next we need to take playbackRate value and apply it to video
+    video.playbackRate = playbackRate;
+  }
+
+  speed.addEventListener('mousemove', handleMove);
+
+</script>
+</body>
+</html>
